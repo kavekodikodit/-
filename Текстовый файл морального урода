@@ -1,0 +1,84 @@
+var
+  F1, F2, F11: text;
+  LastLine, s, st, s1: string;
+  LastStr: array of string;
+  k,j: integer;
+  One: string;
+
+procedure kol_slov(st: string; var k: integer);
+
+begin
+  k := 0;
+    for var i := 1 to length(st) do
+    begin
+      if st[i] = ' ' then
+        k := k + 1;
+        end;
+end;
+
+begin
+  Assign(F11, 'F11.txt');
+  Assign(F1, 'F1.txt');
+  Assign(F2, 'F2.txt');
+  
+  Rewrite(F2); 
+  reset(F1);
+  Rewrite(F11);
+  
+  //удалим лишние пробелы в моей нелепой жизни
+  while not eof(F1) do
+  begin
+    readln(F1, s);
+    s := s + ' ';
+    st := '';
+    while pos(' ', s) > 0 do
+    begin
+      s1 := copy(s, 1, pos(' ', s) - 1);
+      delete(s, 1, pos(' ', s));
+      if length(s1) > 1 then
+        st := st + s1 + ' ';
+    end;
+    delete(st, Length(st), 1);
+    writeln(F11, st);
+  end;
+  
+  close(F11);
+  reset(F11);
+  
+  while not eof(F11) do 
+    readln(F11, LastLine);
+    
+LastLine := LastLine + ' ';
+k:=0;
+kol_slov(LastLine, k);
+setlength(LastStr,k+1);
+
+ for var i:=0 to k-1  do
+ begin
+  LastStr[i]:=copy(LastLine,1,pos(' ',lastline)-1);
+  delete(LastLine,1,pos(' ',LastLine));
+ end;
+ 
+for var i:=0 to k-1  do
+writeln ( LastStr[i]);
+writeln;
+
+  Reset(F11);
+  
+  while not eof(F11) do 
+  begin
+    readln(F11, one);
+    for var i := 0 to length(LastStr) - 1 do
+    begin 
+    if (pos(LastStr[i], one) <> 0) then
+  begin
+  writeln (one, ' contains "', LastStr[i], '"');
+        WriteLn(F2, one);
+        break;
+      end;
+    end; 
+  end;
+  
+  Close(F11);
+  Close(F2); 
+end.
