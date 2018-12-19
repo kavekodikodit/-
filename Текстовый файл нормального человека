@@ -1,0 +1,28 @@
+var
+F1, F2 : text;
+LastLine : string;
+LastWords : array of string;
+OneLine: string;
+begin
+  Assign(F1, 'F1.txt');
+  Assign(F2, 'F2.txt');
+  Reset(F1);
+  Rewrite(F2);
+  
+  while NOT EoF(F1) do ReadLn(F1, LastLine);
+  LastWords := LastLine.ToWords();
+  
+  Reset(F1);
+  while NOT EoF(F1) do begin           
+    ReadLn(F1, OneLine);
+    foreach var i in LastWords do begin
+      if (OneLine.Contains(i)) then begin           
+        WriteLn(F2, OneLine);
+        break;
+      end;
+    end; 
+  end;
+  Close(F1);
+  Close(F2);
+  
+end.
